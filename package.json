@@ -209,7 +209,7 @@
     "@types/glob": "^7.2.0",
     "@types/graceful-fs": "^4.1.9",
     "@types/i18n": "^0.12.0",
-    "@types/jasmine": "~3.9.1",
+    "@types/jasmine": "~5.1.8",
     "@types/jest": "^26.0.24",
     "@types/js-yaml": "^3.12.10",
     "@types/jsonwebtoken": "^8.5.9",
