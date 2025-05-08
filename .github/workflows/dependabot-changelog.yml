@@ -8,7 +8,7 @@ on:
   workflow_dispatch:  # 👈 This enables manual triggering
 jobs:
   changelog:
-    if: github.actor == 'dependabot[bot]'
+    if: github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
