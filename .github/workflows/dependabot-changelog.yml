@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize]
     branches:
       - main  # or your default branch
-
+  workflow_dispatch:  # 👈 This enables manual triggering
 jobs:
   changelog:
     if: github.actor == 'dependabot[bot]'
