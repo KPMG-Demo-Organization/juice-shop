@@ -1,33 +1,31 @@
-name: Dependabot Changelog Fetcher
+name: Generate Changelog for Dependabot PR
+
 on:
   pull_request:
-    types:
-      - opened
+    types: [opened, synchronize]
+    branches:
+      - main  # or your default branch
 
 jobs:
-  fetch-changelog:
+  changelog:
+    if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Extract Dependency Name
-        run: |
-          echo "DEPENDENCY_NAME=$(jq -r '.dependencies | keys[0]' package.json)" >> $GITHUB_ENV
-
-      - name: Fetch Changelog
-        run: |
-          curl -s "https://api.github.com/repos/${{ env.DEPENDENCY_NAME }}/releases/latest" | jq -r '.body' > changelog.txt
-
-      - name: Append Changelog to PR
-        uses: actions/github-script@v6
+      - name: Set up Node.js (if using JS tools)
+        uses: actions/setup-node@v4
         with:
-          script: |
-            const fs = require('fs');
-            const changelog = fs.readFileSync('changelog.txt', 'utf8');
-            github.rest.pulls.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
-              body: context.payload.pull_request.body + "\n\n### Changelog:\n" + changelog
-            });
+          node-version: 18
+
+      - name: Generate Changelog Entry
+        run: |
+          echo "### 📝 Changelog" > changelog.txt
+          echo "- Dependency updated: ${GITHUB_HEAD_REF}" >> changelog.txt
+
+      - name: Comment changelog on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: changelog.txt
