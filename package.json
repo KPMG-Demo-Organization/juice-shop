@@ -143,7 +143,7 @@
     "finale-rest": "^1.2.2",
     "fs-extra": "^9.1.0",
     "fuzzball": "^1.4.0",
-    "glob": "^10.4.5",
+    "glob": "^11.0.2",
     "graceful-fs": "^4.2.11",
     "grunt": "^1.6.1",
     "grunt-contrib-compress": "^1.6.0",
